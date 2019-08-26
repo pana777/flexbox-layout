@@ -74,6 +74,8 @@ public class FlexboxLayoutManager extends RecyclerView.LayoutManager implements 
      */
     private int mFlexWrap;
 
+    private Boolean mFillAllItems = false;
+
     /**
      * The current value of the {@link JustifyContent}, the default value is
      * {@link JustifyContent#FLEX_START}.
@@ -286,6 +288,14 @@ public class FlexboxLayoutManager extends RecyclerView.LayoutManager implements 
             clearFlexLines();
             requestLayout();
         }
+    }
+
+    public Boolean getmFillAllItems() {
+        return mFillAllItems;
+    }
+
+    public void setFillAllItems() {
+        mFillAllItems = true;
     }
 
     @Override
@@ -874,7 +884,7 @@ public class FlexboxLayoutManager extends RecyclerView.LayoutManager implements 
             // passed as 0 from the RecyclerView)
             // Set the upper limit as the height of the device in order to prevent computing all
             // items in the adapter
-            needsToFill = mLayoutState.mInfinite ?
+            needsToFill = mFillAllItems ? 999999999 : mLayoutState.mInfinite ?
                     mContext.getResources().getDisplayMetrics().heightPixels
                     : mLayoutState.mAvailable;
         } else {
@@ -885,7 +895,7 @@ public class FlexboxLayoutManager extends RecyclerView.LayoutManager implements 
             // passed as 0 from the RecyclerView)
             // Set the upper limit as the width of the device in order to prevent computing all
             // items in the adapter
-            needsToFill = mLayoutState.mInfinite ?
+            needsToFill = mFillAllItems ? 999999999 : mLayoutState.mInfinite ?
                     mContext.getResources().getDisplayMetrics().widthPixels
                     : mLayoutState.mAvailable;
         }
